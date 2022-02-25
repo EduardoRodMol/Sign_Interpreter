@@ -8,7 +8,7 @@ import os
 def fitting():
     X_train, X_test, y_train, y_test = labeling()
 
-    log_dir = os.path.join(os.getcwd()+'Logs')
+    log_dir = os.path.join(os.getcwd()+'/Logs')
     tb_callback = TensorBoard(log_dir=log_dir)
     model = Sequential()
     model.add(LSTM(64, return_sequences=True, activation='relu', input_shape=(30,1662)))
