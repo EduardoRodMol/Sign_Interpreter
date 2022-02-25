@@ -1,4 +1,4 @@
-from data.datagenerator import generador, prueba
+from data.datagenerator import generador
 
 
 generador()
