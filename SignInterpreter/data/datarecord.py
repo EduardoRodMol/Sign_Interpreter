@@ -3,13 +3,13 @@ from xmlrpc.client import DateTime
 import numpy as np
 from datetime import datetime
 
-DATA_PATH = os.path.join(os.getcwd()+'\MP_Data') 
+DATA_PATH = os.path.join(os.getcwd(),'MP_Data') 
 
 # Actions that we try to detect
 actions = np.array(['piedra', 'papel', 'tijeras'])
 
 #Create folder when dataset was created
-datadate = (datetime.now()).strftime("%d-%m-%Y")
+datadate = (datetime.now()).strftime("%d-%m-%Y %H-%M-%S")
 
 # Thirty videos worth of data
 no_sequences = 30
