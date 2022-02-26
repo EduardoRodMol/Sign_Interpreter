@@ -1,8 +1,10 @@
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense
-from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import LSTM, Dense
+from tensorflow.python.keras.callbacks import TensorBoard
+from sklearn.metrics import  multilabel_confusion_matrix, accuracy_score
 from data.datarecord import actions
 from modelo.preprocess import labeling
+import numpy as np
 import os
 
 def fitting():
@@ -23,3 +25,10 @@ def fitting():
 
 
     model.save(os.getcwd()+'/action.h5')
+
+    model.load_weights("action.h5")
+    y_pred = model.predict(X_test)
+    y_test = np.argmax(y_test, axis=1).tolist()
+    y_pred = np.argmax(y_pred, axis=1).tolist()
+    print(multilabel_confusion_matrix(y_test,y_pred))
+    print(accuracy_score(y_test,y_pred))

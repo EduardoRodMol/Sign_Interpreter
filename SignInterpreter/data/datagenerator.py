@@ -4,7 +4,7 @@ import os
 from matplotlib import pyplot as plt
 import time
 from data.keypoints import mediapipe_detection, mp_holistic, draw_styled_landmarks
-from data.datarecord import actions, no_sequences, sequence_length, DATA_PATH
+from data.datarecord import actions, no_sequences, sequence_length, datadate, DATA_PATH
 from data.values import extract_keypoints
 import mediapipe as mp
 
@@ -29,7 +29,7 @@ def generador():
 
                     # Make detections
                     image, results = mediapipe_detection(frame, holistic)
-    #                 print(results)
+                    #print(results)
 
                     # Draw landmarks
                     draw_styled_landmarks(image, results)
@@ -52,7 +52,7 @@ def generador():
                     # NEW Export keypoints
                     keypoints = extract_keypoints(results)
                     
-                    npy_path = os.path.join(DATA_PATH, action, str(sequence), str(frame_num))
+                    npy_path = os.path.join(DATA_PATH, action, datadate, str(sequence), str(frame_num))
                     np.save(npy_path, keypoints)
 
                     # Break gracefully
