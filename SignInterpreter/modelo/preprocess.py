@@ -2,7 +2,7 @@ import tensorflow
 from tensorflow import keras
 from sklearn.model_selection import train_test_split
 from keras import utils
-from data.datarecord import actions, no_sequences, sequence_length, datadate, DATA_PATH
+from data.datarecord import actions, no_sequences, sequence_length, DATA_PATH
 import numpy as np
 import os
 
@@ -23,5 +23,5 @@ def labeling():
 
     X = np.array(sequences)
     y = tensorflow.keras.utils.to_categorical(labels).astype(int)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.10)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
     return X_train, X_test, y_train, y_test
