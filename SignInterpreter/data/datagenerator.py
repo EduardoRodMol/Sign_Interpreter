@@ -4,14 +4,15 @@ import os
 from matplotlib import pyplot as plt
 import time
 from data.keypoints import mediapipe_detection, mp_holistic, draw_styled_landmarks
-from data.datarecord import actions, no_sequences, sequence_length, datadate, DATA_PATH
+from data.datarecord import actions, no_sequences, sequence_length, datadate, DATA_PATH, create_folder
 from data.values import extract_keypoints
 import mediapipe as mp
 
 
+
 def generador():
     print("llega hasta aqui")
-
+    create_folder()
     cap = cv2.VideoCapture(0)
     # Set mediapipe model 
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:

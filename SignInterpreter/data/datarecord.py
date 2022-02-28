@@ -18,12 +18,12 @@ no_sequences = 30
 sequence_length = 30
 
 
-
-for action in actions: 
-    for sequence in range(no_sequences):
-        try: 
-            os.makedirs(os.path.join(DATA_PATH, action, datadate, str(sequence)))
-        except:
-            pass
+def create_folder():
+    for action in actions: 
+        for sequence in range(no_sequences):
+            try: 
+                os.makedirs(os.path.join(DATA_PATH, action, datadate, str(sequence)))
+            except:
+                pass
 
 

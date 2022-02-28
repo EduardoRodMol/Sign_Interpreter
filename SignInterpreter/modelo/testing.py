@@ -12,7 +12,7 @@ def tester():
     # 1. New detection variables
     sequence = []
     sentence = []
-    threshold = 0.8
+    threshold = 0.7
 
     cap = cv2.VideoCapture(0)
     # Set mediapipe model 
@@ -31,8 +31,6 @@ def tester():
             
             # 2. Prediction logic
             keypoints = extract_keypoints(results)
-    #         sequence.insert(0,keypoints)
-    #         sequence = sequence[:30]
             sequence.append(keypoints)
             sequence = sequence[-30:]
             
