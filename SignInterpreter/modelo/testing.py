@@ -2,7 +2,6 @@ from tensorflow.python.keras.models import load_model
 from data.keypoints import mp_holistic, mediapipe_detection, draw_styled_landmarks
 from data.values import extract_keypoints
 from data.datarecord import actions
-import mediapipe as mp
 import cv2
 import numpy as np
 
@@ -58,10 +57,10 @@ def tester():
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             
             # Show to screen
-            cv2.imshow('OpenCV Feed', image)
+            cv2.imshow("OpenCV", image)
 
             # Break gracefully
-            if cv2.waitKey(10) & 0xFF == ord('q'):
+            if cv2.waitKey(10) & 0xFF == ord("q"):
                 break
         cap.release()
         cv2.destroyAllWindows()

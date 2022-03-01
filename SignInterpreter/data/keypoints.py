@@ -1,8 +1,4 @@
 import cv2
-import numpy as np
-import os
-
-import time
 import mediapipe as mp
 
 mp_holistic = mp.solutions.holistic # Holistic model
