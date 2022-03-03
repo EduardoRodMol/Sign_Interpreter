@@ -11,7 +11,7 @@ def tester():
     # 1. New detection variables
     sequence = []
     sentence = []
-    threshold = 0.7
+    threshold = 0.8
 
     cap = cv2.VideoCapture(0)
     # Set mediapipe model 
