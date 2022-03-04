@@ -11,7 +11,7 @@ from data.keypoints import mediapipe_detection,draw_styled_landmarks
 from datarecord import actions
 MODEL_PATH= os.getcwd()+"/action.h5"
 print(MODEL_PATH)
-
+#modificacion para commit
 class TensorFlowVideoProcessor(VideoProcessorBase):
 
     def __init__(self) -> None:
