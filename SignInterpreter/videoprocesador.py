@@ -1,3 +1,5 @@
+#import sys
+#sys.path.append("../")
 from streamlit_webrtc import webrtc_streamer, WebRtcMode,VideoProcessorBase
 import av
 from tensorflow.python.keras.models import load_model
@@ -7,13 +9,15 @@ from data.datarecord import actions
 import cv2
 import numpy as np
 import queue
+from interprete.producer.productor import  send
 #from streamlit.rtc_configuration import RTC_CONFIGURATION
 #from aiortc.contrib.media import MediaPlayer
 model = load_model("action.h5")
 import queue
+import asyncio
 
 
-def process_kafka_message():^
+def process_kafka_message():
     image, results = mediapipe_detection(img, holistic)
     # ... extract from buffer of 10 images receive from kafka message
     draw_styled_landmarks(image, results)
@@ -31,10 +35,12 @@ def process_kafka_message():^
         print(label)
 
 
-def consume_kafka_results():^
+def consume_kafka_results():
+    pass
     # consume mensajes del topic de kafka donde se emiten resultados y actualiza la variable global
 
-global kafka_prediciton = "üunknown"
+#global kafka_prediciton = "unknown"
+
 
 class VideoProcessor(VideoProcessorBase):
     def __init__(self):
@@ -44,14 +50,19 @@ class VideoProcessor(VideoProcessorBase):
         self.frame_count = 0
 
     def recv(self, frame: av.VideoFrame) :
-        threshold = 0.8
+        #threshold = 0.8
         
         with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
             img = frame.to_ndarray(format="bgr24")
             self.sequence.append(img)
             self.sequence = sequence[-10:]
-            if self.frame_count > self.predict_threshold:^
+            if self.frame_count > self.predict_threshold:
                 self.frame_count = 0
+                print("algo")
+                #send(self.sequence)
+                asyncio.run(send(self.sequence))
+                
+        
                 # Send self.sequence to kafka topic
             else:
                 self.frame_count += 1
