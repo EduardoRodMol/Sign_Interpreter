@@ -6,10 +6,10 @@ import av
 import cv2
 import numpy as np
 import queue
-from strem.predict import predice
+from interprete.producer.productor import  send
 from data.keypoints import mp_holistic
-#from strem.rtc_config import RTC_CONFIGURATION
-#from aiortc.contrib.media import MediaPlayer
+from strem.rtc_config import RTC_CONFIGURATION
+from aiortc.contrib.media import MediaPlayer
 
 import queue
 import asyncio
@@ -30,27 +30,27 @@ class VideoProcessor(VideoProcessorBase):
         self.sequence = []
         self.predict_threshold = 50
         self.frame_count = 0
-        self.label = ""
+        self.semaforo = "verde"
 
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
         #threshold = 0.8
-       
-        with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
-            img =  frame.to_ndarray(format="bgr24")
+        while self.semaforo == "verde":
+            with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+                img =  frame.to_ndarray(format="bgr24")
                 
                 
-            self.sequence.append(img)
-            self.sequence = self.sequence[-10:]
-            if self.frame_count > self.predict_threshold:
-                self.frame_count = 0
-                print("algo")
+                self.sequence.append(img)
+                self.sequence = self.sequence[-10:]
+                if self.frame_count > self.predict_threshold:
+                    self.frame_count = 0
+                    print("algo")
                     #send(self.sequence)
                     
-                self.label =predice(self.sequence, holistic)
+                    asyncio.run(send(self.sequence, holistic))
                    
                     # Send self.sequence to kafka topic
-            else:
-                self.frame_count += 1
+                else:
+                    self.frame_count += 1
                 #cada 50 recepciones mando la lieta de los ultimos 10
                 #consumer de kafka
                 
@@ -63,7 +63,7 @@ class VideoProcessor(VideoProcessorBase):
             ####DEVOLVEMOS IMG, PERO DEVERIAMOS DEVULVER IMAGE, con la pitnura
             
             
-        return av.VideoFrame.from_ndarray(img, format="bgr24")
+            return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 webrtc_ctx =webrtc_streamer(
     key="Sign_Interpreter",
