@@ -41,13 +41,14 @@ class VideoProcessor(VideoProcessorBase):
 
         with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
             img =  frame.to_ndarray(format="bgr24")
-            update_cv2(img,self.label)
+            #update_cv2(img,self.label)
             self.sequence.append(img)
             self.sequence = self.sequence[-30:]
             if self.frame_count > self.predict_threshold:
                 self.frame_count = 0
                 #enviamos las imagenes al modelo pra predecir  
                 self.label = "calculando"
+                print("calculando")
                 update_cv2(img,self.label)                                      
                 self.pronostico =predice(self.sequence, holistic)
                 self.label = self.pronostico                

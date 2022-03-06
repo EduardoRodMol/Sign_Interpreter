@@ -6,8 +6,8 @@ from data.datarecord import actions
 import numpy as np
 import cv2
 
-def predice(loteimg,holistic):
-
+async def predice(loteimg,holistic):
+    print("estoy aqui")
     model = load_model("action.h5")
     sequence=[]
     sentence =[]
@@ -22,25 +22,25 @@ def predice(loteimg,holistic):
         print ("hola" )
         print("longitud" + str(len(sequence)))
         print(keypoints)
+        await send(self.sequence, holistic)
+        # if len(sequence) == 10:
+        #     res = model.predict(np.expand_dims(sequence, axis=0))[0]
+        #     label = actions[np.argmax(res)]
+        #     print (label)
         
-        if len(sequence) == 10:
-            res = model.predict(np.expand_dims(sequence, axis=0))[0]
-            label = actions[np.argmax(res)]
-            print (label)
-           
-            if res[np.argmax(res)] > threshold: 
-                    if len(sentence) > 0: 
-                        if actions[np.argmax(res)] != sentence[-1]:
-                            sentence.append(actions[np.argmax(res)])
-                    else:
-                        sentence.append(actions[np.argmax(res)])
+        #     if res[np.argmax(res)] > threshold: 
+        #             if len(sentence) > 0: 
+        #                 if actions[np.argmax(res)] != sentence[-1]:
+        #                     sentence.append(actions[np.argmax(res)])
+        #             else:
+        #                 sentence.append(actions[np.argmax(res)])
 
-            if len(sentence) > 5: 
-                sentence = sentence[-5:]
+        #     if len(sentence) > 5: 
+        #         sentence = sentence[-5:]
         
  #       await producer.send_and_wait(topic_name, label) # Define a topic when you send a message
                                                         # This way, they can be sorted by different consumers
-    return sentence
+    return "sentence"
 
 
 
