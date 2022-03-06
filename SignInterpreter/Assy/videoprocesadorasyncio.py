@@ -2,7 +2,6 @@
 #sys.path.append("../")
 from streamlit_webrtc import webrtc_streamer, WebRtcMode,VideoProcessorBase
 import av
-
 import cv2
 import numpy as np
 import queue
@@ -30,27 +29,26 @@ class VideoProcessor(VideoProcessorBase):
         self.sequence = []
         self.predict_threshold = 50
         self.frame_count = 0
-        self.semaforo = "verde"
+        
 
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
         #threshold = 0.8
-        while self.semaforo == "verde":
-            with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
-                img =  frame.to_ndarray(format="bgr24")
+        with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+            img =  frame.to_ndarray(format="bgr24")              
+            self.sequence.append(img)
+            self.sequence = self.sequence[-10:]
+            if self.frame_count > self.predict_threshold:
+                self.frame_count = 0
+                print("algo")
+                #send(self.sequence)
                 
+                asyncio.run(send(self.sequence, holistic))
                 
-                self.sequence.append(img)
-                self.sequence = self.sequence[-10:]
-                if self.frame_count > self.predict_threshold:
-                    self.frame_count = 0
-                    print("algo")
-                    #send(self.sequence)
-                    
-                    asyncio.run(send(self.sequence, holistic))
-                   
-                    # Send self.sequence to kafka topic
-                else:
-                    self.frame_count += 1
+                # Send self.sequence to kafka topic
+            else:
+                self.frame_count += 1
+
+
                 #cada 50 recepciones mando la lieta de los ultimos 10
                 #consumer de kafka
                 
@@ -63,12 +61,13 @@ class VideoProcessor(VideoProcessorBase):
             ####DEVOLVEMOS IMG, PERO DEVERIAMOS DEVULVER IMAGE, con la pitnura
             
             
-            return av.VideoFrame.from_ndarray(img, format="bgr24")
+
+         return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 webrtc_ctx =webrtc_streamer(
     key="Sign_Interpreter",
     mode=WebRtcMode.SENDRECV,
-    #rtc_configuration=RTC_CONFIGURATION,
+    rtc_configuration=RTC_CONFIGURATION,
     video_processor_factory=VideoProcessor,
     media_stream_constraints={"video": True, "audio": False},
     async_processing=True

@@ -6,7 +6,7 @@ import av
 import cv2
 import numpy as np
 import queue
-from strem.predict import predice
+from strem.predict import predice, update_cv2
 from data.keypoints import mp_holistic
 #from strem.rtc_config import RTC_CONFIGURATION
 #from aiortc.contrib.media import MediaPlayer
@@ -32,23 +32,28 @@ class VideoProcessor(VideoProcessorBase):
         self.frame_count = 0
         self.label = ""
         self.pronostico= ""
+        
     
-        
+    
+    
+    
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
-        #threshold = 0.8
-        
+
         with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
             img =  frame.to_ndarray(format="bgr24")
-            cv2.rectangle(img, (0,0), (640, 40), (245, 117, 16), -1)
-            cv2.putText(img, ' '.join(self.label), (3,30), 
-            cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
-                
+            update_cv2(img,self.label)
             self.sequence.append(img)
             self.sequence = self.sequence[-30:]
             if self.frame_count > self.predict_threshold:
                 self.frame_count = 0
-                #enviamos las imagenes al modelo pra predecir                                        
-                self.label =predice(self.sequence, holistic)
+                #enviamos las imagenes al modelo pra predecir  
+                self.label = "calculando"
+                update_cv2(img,self.label)                                      
+                self.pronostico =predice(self.sequence, holistic)
+                self.label = self.pronostico
+                
+                update_cv2(img,self.label)
+
                 print(self.label)
                 #escribimos la imagen
                 #self.pronostico = self.pronostico +", "+ self.label
