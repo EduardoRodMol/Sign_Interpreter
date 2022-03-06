@@ -9,7 +9,7 @@ from interprete.producer.productor import  send
 from data.keypoints import mp_holistic
 from strem.rtc_config import RTC_CONFIGURATION
 from aiortc.contrib.media import MediaPlayer
-
+from strem.predict import  update_cv2
 import queue
 import asyncio
 
@@ -24,24 +24,34 @@ def consume_kafka_results():
 
 
 class VideoProcessor(VideoProcessorBase):
+    
     def __init__(self):
        # self.model = load_model("action.h5")
         self.sequence = []
         self.predict_threshold = 50
         self.frame_count = 0
+        self.label = ""
+        self.delay = 1.0
+        #self.holograma = mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+        #self.kafka = send(self.sequence,self.holograma)
         
 
-    def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
-        #threshold = 0.8
+    async def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
+        
         with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
-            img =  frame.to_ndarray(format="bgr24")              
+
+            img =  frame.to_ndarray(format="bgr24")
+            update_cv2(img,self.label)
             self.sequence.append(img)
-            self.sequence = self.sequence[-10:]
+            self.sequence = self.sequence[-30:]
             if self.frame_count > self.predict_threshold:
                 self.frame_count = 0
-                print("algo")
-                #send(self.sequence)                
-                asyncio.run(send(self.sequence, holistic))
+                self.label = "calculando"
+                update_cv2(img,self.label)    
+                #send(self.sequence)
+                #await asyncio.sleep(self.delay)
+                print("calculando")             
+                await  asyncio.run(send(self.sequence, holistic))
                 
                 # Send self.sequence to kafka topic
             else:
@@ -61,7 +71,7 @@ class VideoProcessor(VideoProcessorBase):
             
             
 
-         return av.VideoFrame.from_ndarray(img, format="bgr24")
+        return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 webrtc_ctx =webrtc_streamer(
     key="Sign_Interpreter",
@@ -69,6 +79,6 @@ webrtc_ctx =webrtc_streamer(
     rtc_configuration=RTC_CONFIGURATION,
     video_processor_factory=VideoProcessor,
     media_stream_constraints={"video": True, "audio": False},
-    async_processing=True
+    async_processing=True,
     )
    

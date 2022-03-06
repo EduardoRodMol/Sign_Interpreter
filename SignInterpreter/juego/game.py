@@ -31,5 +31,6 @@ def juego (predict):
             else:
                 return "humans wins " + "jugador: "+predict + " maquina prediccion: " + machine
 
+    ### pendiente refactorizar
     
                 

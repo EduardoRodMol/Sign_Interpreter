@@ -35,7 +35,7 @@ async def send(loteimg,holistic):
             sequence.append(keypoints)
             sequence = sequence[-10:]
             #self.contador = self.contador +1
-            print ("hola" )
+            print ("hola hola estoy a punto de mandarlo" )
             print("longitud" + str(len(sequence)))
             print(keypoints)
 
