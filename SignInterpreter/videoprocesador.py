@@ -28,7 +28,7 @@ class VideoProcessor(VideoProcessorBase):
     def __init__(self):
        # self.model = load_model("action.h5")
         self.sequence = []
-        self.predict_threshold = 30
+        self.predict_threshold = 50
         self.frame_count = 0
         self.label = ""
         self.pronostico= ""
@@ -50,13 +50,10 @@ class VideoProcessor(VideoProcessorBase):
                 self.label = "calculando"
                 update_cv2(img,self.label)                                      
                 self.pronostico =predice(self.sequence, holistic)
-                self.label = self.pronostico
-                
+                self.label = self.pronostico                
                 update_cv2(img,self.label)
-
                 print(self.label)
-                #escribimos la imagen
-                #self.pronostico = self.pronostico +", "+ self.label
+                
             
                     # Send self.sequence to kafka topic
             else:

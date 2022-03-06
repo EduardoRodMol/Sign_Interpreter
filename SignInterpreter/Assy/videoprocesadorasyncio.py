@@ -40,8 +40,7 @@ class VideoProcessor(VideoProcessorBase):
             if self.frame_count > self.predict_threshold:
                 self.frame_count = 0
                 print("algo")
-                #send(self.sequence)
-                
+                #send(self.sequence)                
                 asyncio.run(send(self.sequence, holistic))
                 
                 # Send self.sequence to kafka topic

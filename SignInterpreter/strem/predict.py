@@ -5,6 +5,7 @@ from data.values import extract_keypoints
 from data.datarecord import actions
 import numpy as np
 import cv2
+
 def predice(loteimg,holistic):
 
     model = load_model("action.h5")
@@ -22,7 +23,7 @@ def predice(loteimg,holistic):
         print("longitud" + str(len(sequence)))
         print(keypoints)
 
-        if len(sequence) == 30:
+        if len(sequence) == 10:
             res = model.predict(np.expand_dims(sequence, axis=0))[0]
             label = actions[np.argmax(res)]
             print (label)
