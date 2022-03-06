@@ -28,26 +28,31 @@ class VideoProcessor(VideoProcessorBase):
     def __init__(self):
        # self.model = load_model("action.h5")
         self.sequence = []
-        self.predict_threshold = 50
+        self.predict_threshold = 30
         self.frame_count = 0
         self.label = ""
-
+        self.pronostico= ""
+    
+        
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
         #threshold = 0.8
-       
+        
         with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
             img =  frame.to_ndarray(format="bgr24")
-                
+            cv2.rectangle(img, (0,0), (640, 40), (245, 117, 16), -1)
+            cv2.putText(img, ' '.join(self.label), (3,30), 
+            cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
                 
             self.sequence.append(img)
-            self.sequence = self.sequence[-10:]
+            self.sequence = self.sequence[-30:]
             if self.frame_count > self.predict_threshold:
                 self.frame_count = 0
-                print("algo")
-                    #send(self.sequence)
-                    
+                #enviamos las imagenes al modelo pra predecir                                        
                 self.label =predice(self.sequence, holistic)
-                   
+                print(self.label)
+                #escribimos la imagen
+                #self.pronostico = self.pronostico +", "+ self.label
+            
                     # Send self.sequence to kafka topic
             else:
                 self.frame_count += 1
@@ -73,4 +78,11 @@ webrtc_ctx =webrtc_streamer(
     media_stream_constraints={"video": True, "audio": False},
     async_processing=True
     )
+
+'''
+web streamer es quien hace la conexion con los objetos de la web para aplicarlos al modelo
+
+if webrtc_ctx.video_processor:
+    webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
+'''
    

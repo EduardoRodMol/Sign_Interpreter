@@ -1,7 +1,7 @@
 #import sys
 #sys.path.append("../")
 from aiokafka import AIOKafkaProducer
-#import asyncio
+import asyncio
 import json
 #import videoprocesador
 from interprete.producer.utils.configuracion import *

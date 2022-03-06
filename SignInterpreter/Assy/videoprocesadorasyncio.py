@@ -37,6 +37,8 @@ class VideoProcessor(VideoProcessorBase):
         while self.semaforo == "verde":
             with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
                 img =  frame.to_ndarray(format="bgr24")
+                
+                
                 self.sequence.append(img)
                 self.sequence = self.sequence[-10:]
                 if self.frame_count > self.predict_threshold:
