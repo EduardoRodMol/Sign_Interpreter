@@ -1,16 +1,17 @@
 import streamlit as st
-from streamlit.label import *
+
+from videoprocesador import webrtc_ctx
 
 st.title("OpenCV Demo App")
 st.subheader("This app allows you to play the classic Stone, Paper & Scissors !")
 st.text("We use OpenCV and Streamlit for this demo")
+st.text("Do you wanna play? Click in Run")
 run = st.checkbox('Run')
-FRAME_WINDOW = st.image([])
-camera = cv2.VideoCapture(0)
+#FRAME_WINDOW = st.image([])
+#camera = cv2.VideoCapture(0)
 while run:
-    _, frame = camera.read()
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    FRAME_WINDOW.image(frame)
+    webrtc_ctx()
+   
 else:
     st.write('Stopped')
     
