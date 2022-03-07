@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9.7
 
 ADD ./ /api
 
@@ -6,4 +6,4 @@ WORKDIR /api
 
 RUN pip install -r requirements.txt
 
-CMD ["streamlit run videoprocesador.py"]
+CMD ["sh","-c","streamlit run videoprocesador.py"]
