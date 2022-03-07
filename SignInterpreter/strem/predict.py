@@ -40,7 +40,7 @@ def predice(loteimg,holistic):
         
  #       await producer.send_and_wait(topic_name, label) # Define a topic when you send a message
                                                         # This way, they can be sorted by different consumers
-    return sentence
+    return label
 
 
 
