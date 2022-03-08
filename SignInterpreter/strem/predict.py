@@ -19,14 +19,13 @@ def predice(loteimg,holistic):
         sequence.append(keypoints)
         sequence = sequence[-30:]
             #self.contador = self.contador +1
-        print ("hola" )
-        print("longitud" + str(len(sequence)))
+        
         print(keypoints)
         
         if len(sequence) == 10:
             res = model.predict(np.expand_dims(sequence, axis=0))[0]
             label = actions[np.argmax(res)]
-            print (label)
+            
            
             if res[np.argmax(res)] > threshold: 
                     if len(sentence) > 0: 
@@ -40,7 +39,7 @@ def predice(loteimg,holistic):
         
  #       await producer.send_and_wait(topic_name, label) # Define a topic when you send a message
                                                         # This way, they can be sorted by different consumers
-    return label
+    return sentence
 
 
 

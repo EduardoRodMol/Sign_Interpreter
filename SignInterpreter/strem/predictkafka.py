@@ -22,6 +22,7 @@ async def predice(loteimg,holistic):
         print ("hola" )
         print("longitud" + str(len(sequence)))
         print(keypoints)
+         
         await send(self.sequence, holistic)
         # if len(sequence) == 10:
         #     res = model.predict(np.expand_dims(sequence, axis=0))[0]

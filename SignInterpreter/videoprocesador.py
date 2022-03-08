@@ -2,7 +2,7 @@
 #sys.path.append("../")
 from streamlit_webrtc import VideoProcessorBase,webrtc_streamer, WebRtcMode
 import av
-
+from juego.game import juego
 import cv2
 import numpy as np
 import queue
@@ -60,7 +60,7 @@ class VideoProcessor(VideoProcessorBase):
                 else:            
                     update_cv2(img,self.label)
                 print(self.label)
-                
+                self.label = juego(self.pronostico)
             
                     # Send self.sequence to kafka topic
             else:

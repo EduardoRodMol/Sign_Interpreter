@@ -35,8 +35,7 @@ async def send(loteimg,holistic):
             sequence.append(keypoints)
             sequence = sequence[-10:]
             #self.contador = self.contador +1
-            print ("hola hola estoy a punto de mandarlo" )
-            print("longitud" + str(len(sequence)))
+            
             print(keypoints)
 
             if len(sequence) == 10:
@@ -44,7 +43,7 @@ async def send(loteimg,holistic):
                 label = actions[np.argmax(res)]
                 print(label)
 
-            await producer.send_and_wait(topic_name, label) # Define a topic when you send a message
+            await 62.send_and_wait(topic_name, label) # Define a topic when you send a message
                                                           # This way, they can be sorted by different consumers
     finally:
         await producer.stop()

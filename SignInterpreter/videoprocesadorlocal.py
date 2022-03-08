@@ -1,15 +1,16 @@
 #import sys
 #sys.path.append("../")
-from streamlit_webrtc import webrtc_streamer, WebRtcMode,VideoProcessorBase
+from streamlit_webrtc import VideoProcessorBase,webrtc_streamer, WebRtcMode
 import av
+
 import cv2
 import numpy as np
 import queue
-from interprete.producer.productor import  send
+from strem.predict import predice, update_cv2
 from data.keypoints import mp_holistic
-from strem.rtc_config import RTC_CONFIGURATION
-from aiortc.contrib.media import MediaPlayer
-from strem.predict import  update_cv2
+#from strem.rtc_config import RTC_CONFIGURATION
+#from aiortc.contrib.media import MediaPlayer
+
 import queue
 import asyncio
 
@@ -24,40 +25,46 @@ def consume_kafka_results():
 
 
 class VideoProcessor(VideoProcessorBase):
-    
     def __init__(self):
        # self.model = load_model("action.h5")
         self.sequence = []
-        self.predict_threshold = 50
+        self.predict_threshold = 40
         self.frame_count = 0
-        self.label = ""
-        self.delay = 1.0
-        #self.holograma = mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5)
-        #self.kafka = send(self.sequence,self.holograma)
+        self.label = "ready?"
+        self.pronostico= ""
         
+    
+    
+    
+    
+    def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
 
-    async def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
-        
         with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
-
             img =  frame.to_ndarray(format="bgr24")
             update_cv2(img,self.label)
             self.sequence.append(img)
-            self.sequence = self.sequence[-30:]
+            self.sequence = self.sequence[-20:]
+            
             if self.frame_count > self.predict_threshold:
+                update_cv2(img,"maybe...")
                 self.frame_count = 0
+                #enviamos las imagenes al modelo pra predecir  
                 self.label = "calculando"
-                update_cv2(img,self.label)    
-                #send(self.sequence)
-                #await asyncio.sleep(self.delay)
-                print("calculando")             
-                await  asyncio.run(send(self.sequence, holistic))
+                print("calculando")
+                update_cv2(img,self.label)                                      
+                self.pronostico =predice(self.sequence, holistic)
+                print(self.pronostico)
+                self.label = self.pronostico   
+                if self.label == "":
+                    update_cv2(img,"I am unable to see your hand please try again") 
+                else:            
+                    update_cv2(img,self.label)
+                print(self.label)
                 
-                # Send self.sequence to kafka topic
+            
+                    # Send self.sequence to kafka topic
             else:
                 self.frame_count += 1
-
-
                 #cada 50 recepciones mando la lieta de los ultimos 10
                 #consumer de kafka
                 
@@ -70,15 +77,22 @@ class VideoProcessor(VideoProcessorBase):
             ####DEVOLVEMOS IMG, PERO DEVERIAMOS DEVULVER IMAGE, con la pitnura
             
             
-
         return av.VideoFrame.from_ndarray(img, format="bgr24")
+
 
 webrtc_ctx =webrtc_streamer(
     key="Sign_Interpreter",
     mode=WebRtcMode.SENDRECV,
-    rtc_configuration=RTC_CONFIGURATION,
+    #rtc_configuration=RTC_CONFIGURATION,
     video_processor_factory=VideoProcessor,
     media_stream_constraints={"video": True, "audio": False},
-    async_processing=True,
+    async_processing=True
     )
+
+# '''
+# web streamer es quien hace la conexion con los objetos de la web para aplicarlos al modelo
+
+# if webrtc_ctx.video_processor:
+#     webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
+# '''
    
