@@ -11,8 +11,8 @@ def how():
     image2 = Image.open(rutaimg+'\hand_crops.jpg')
     st.image(image, caption='Sunrise by the mountains')
     st.image(image2, caption='Sunrise by the mountains')
-
-
+    st.text ("A hand landmark model that operates on the cropped image region defined by the palm detector and returns high-fidelity 3D hand keypoints")
+    st.text("Providing the accurately cropped hand image to the hand landmark model drastically reduces the need for data augmentation" )
 # # We use mediapipe a hands in order to create a net in our hands 
 
 # Thsi net has 21 point and calcualeate distance between the point n der to calcaulate the , 
