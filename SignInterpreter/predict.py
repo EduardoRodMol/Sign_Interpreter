@@ -6,9 +6,7 @@ from data.datarecord import actions
 import numpy as np
 import cv2
 
-def extraerkeypoints(img,holistic):
-
-    
+def extraerkeypoints(img,holistic):    
     
     image, results = mediapipe_detection(img, holistic)
     draw_styled_landmarks(image, results)
