@@ -9,7 +9,7 @@ from interprete.producer.productor import  send
 from data.keypoints import mp_holistic
 from strem.rtc_config import RTC_CONFIGURATION
 from aiortc.contrib.media import MediaPlayer
-from strem.predict import  update_cv2
+from predict import  update_cv2
 import queue
 import asyncio
 

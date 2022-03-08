@@ -6,7 +6,7 @@ import av
 import cv2
 import numpy as np
 import queue
-from strem.predict import predice, update_cv2
+from predict import predice, update_cv2
 from data.keypoints import mp_holistic
 #from strem.rtc_config import RTC_CONFIGURATION
 #from aiortc.contrib.media import MediaPlayer
