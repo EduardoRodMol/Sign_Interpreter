@@ -6,7 +6,7 @@ from juego.game import juego
 import cv2
 import numpy as np
 import queue
-from predict import extraerkeypoints, predice
+from predict import extraerkeypoints, predice,update_cv2
 from data.keypoints import mp_holistic
 #from strem.rtc_config import RTC_CONFIGURATION
 #from aiortc.contrib.media import MediaPlayer
@@ -41,7 +41,7 @@ class VideoProcessor(VideoProcessorBase):
 
         with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
             img =  frame.to_ndarray(format="bgr24")
-            #update_cv2(img,self.label)
+            update_cv2(img,self.label)
             self.sequence.append(extraerkeypoints(img,holistic))
             self.sequence = self.sequence[-30:]
             
@@ -59,20 +59,18 @@ class VideoProcessor(VideoProcessorBase):
                 print(str(self.label))
                 self.label = juego(str(self.pronostico))
                 print(self.label)
-                #update_cv2(img,self.label)
+                update_cv2(img,self.label)
                     # Send self.sequence to kafka topic
             else:
                 self.frame_count += 1
-                #cada 50 recepciones mando la lieta de los ultimos 10
-                #consumer de kafka
+                
                 
                 #consumer kafka de cada 24 frames consume 1
                 # kaka actualiza la variable  global 
-            #flipped = img[::-1,:,:]¨
+            
             # with opencv write text on global variable ka_fa_predicion in image
             
             
-            ####DEVOLVEMOS IMG, PERO DEVERIAMOS DEVULVER IMAGE, con la pitnura
             
             
         return av.VideoFrame.from_ndarray(img, format="bgr24")
