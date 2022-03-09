@@ -24,7 +24,27 @@ El dataset ha sido creado directamente por nosotros usando mediapipe y opencv, c
 - https://medium.com/analytics-vidhya/mediapipe-fingers-counting-in-python-w-o-gpu-f9494439090c
 - https://github.com/Kazuhito00/hand-gesture-recognition-using-mediapipe/blob/main/README_EN.md
 
-# Uso local
+## Uso web
+
+Si quieres usar nuestra app directamente visitando un enlace web, ¡Estás de suerte!, hemos desplegado nuestra aplicación en la plataforma Heroku, asi que clica en este enlace. Ahora te guiaré a través de las diferentes páginas que puedes seleccionar en la columna de la izquierda.
+
+### Main Page
+
+Aquí puedes encontrar un breve resumen del proyecto, información sobre el dataset y nuestras cuentas de github.
+
+### Game
+
+Aquí ya puedes jugar al piedra, papel o tijera contra la máquina.
+Primero clica en el botón run, se te abrirá una ventana donde debes dar a SELECT DEVICE, después permite el uso de tu cámara al navegador, tras esto podrás elegir que cámara quieres usar. Cuando la tengas haz click en DONE, volverás a la pantalla inicial, clica en START, ahí empezarás a ver tu imagen en la pantalla y el juego comenzará.
+Cuando quieras dejar de jugar solo clica en STOP y se cerrará la cámara.
+
+### How does it work?
+
+Aquí explicamos como funciona Mediapipe, que es el framework que hemos utilizado para captar los keypoints de la mano y así saber la posición de los dedos e identificar las diferentes opciones de piedra, papel y tijeras.
+
+
+
+## Uso local
 
 Para realizar uso de la aplicación en tu dispositivo local empieza por clonar el repositorio, después necesitarás una cámara web e instalar estas librerías.
 
@@ -33,7 +53,7 @@ pip install tensorflow numpy opencv-python scikit-learn
 ```
 Una vez que hayas completado estos pasos, podrás usar las funciones de nuestra aplicación.
 
-## Crear Dataset
+### Crear Dataset
 
 Una de las funciones que puedes realizar es aumentar el dataset, grabando tu mismo las imágenes para el modelo de machine learning. Para esto debes moverte dentro de la carpeta SignInterpreter, y ejecutar este comando.
 
@@ -53,7 +73,7 @@ Esta función no requiere que hagas nada salvo correr este comando, ya que el da
 python training_model.py
 ```
 
-## Probar el modelo
+### Probar el modelo
 
 Para probar el modelo entrenado, prepara tu cámara y corre este comando.
 
