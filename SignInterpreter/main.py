@@ -7,7 +7,7 @@ from pages.how import how
 st.set_page_config(page_title="Sign_Interpreter", layout="wide")
 
 st.title("Sign_Interpreter Project")
-page = st.sidebar.radio("Page selected", ["Main Page","Game","Develop with us", "How does it works?"])
+page = st.sidebar.radio("", ["Main Page","Game","Develop with us", "How does it works?"])
 
 if page == "Main Page":
     

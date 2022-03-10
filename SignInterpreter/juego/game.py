@@ -9,14 +9,8 @@ def selecciona_random(gesto):
     return random.choice(gesto)
 
 
-def juego (predict):
-    print(type(predict))
-    machine = selecciona_random(gesto)
-    print(machine)
-    print(predict)
-    predict = predict.replace("['","").replace("']","")
-    print(predict)
-   
+def juego (predict):    
+    machine = selecciona_random(gesto)    
     if predict == machine:
         return "empate " + "jugador: "+predict + " maquina prediccion: " + machine    
     if predict == "piedra":
@@ -35,6 +29,6 @@ def juego (predict):
             else:
                 return "humans wins " + "jugador: "+predict + " maquina prediccion: " + machine
 
-    ### pendiente refactorizar
+
     
                 

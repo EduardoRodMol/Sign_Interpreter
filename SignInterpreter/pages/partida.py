@@ -11,8 +11,6 @@ def app():
   st.text("people who are unable to use verbal communication to make themselves understood easier.  ")
   st.text("Do you wanna play? Click on run")
   run = st.checkbox('Run')
-  #FRAME_WINDOW = st.image([])
-  #camera = cv2.VideoCapture(0)
   if run:
       
     videoweb()
