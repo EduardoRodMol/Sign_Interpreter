@@ -42,4 +42,4 @@ def predice(sequence):
     if len(sentence) > 5: 
         sentence = sentence[-5:]
 
-    return str(sentence[0])
+    return sentence[0]

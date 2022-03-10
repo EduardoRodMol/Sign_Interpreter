@@ -40,12 +40,14 @@ class VideoProcessor(VideoProcessorBase):
     
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
 
-        #with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+       
         img =  frame.to_ndarray(format="bgr24")
         self.sequence = get_datapoint(img)
-        print(self.frame_count)     
-        update_cv2(img,"getting information "+str(self.frame_count)+ " of 30")  
-        print("secuence self lon "+str(len(self.sequence))+ " of 30")       
+        print(self.sequence)     
+       
+        # print(self.frame_count)     
+        # update_cv2(img,"getting information "+str(self.frame_count)+ " of 30")  
+        # print("secuence self lon "+str(len(self.sequence))+ " of 30")       
         if len(self.sequence)== 30:
             self.frame_count = 0
             print(self.frame_count)  
@@ -62,23 +64,7 @@ class VideoProcessor(VideoProcessorBase):
                     print(self.label)
                     update_cv2(img,str(self.label))
 
-            # update_cv2(img,str(self.label))
-            # self.sequence.append(extraerkeypoints(img,holistic))
-            # self.sequence = self.sequence[-30:]
-            # print("llevamos: " + str(self.frame_count))
-            # if self.frame_count > self.predict_threshold:
-            #     self.frame_count = 0
-            #     #enviamos las imagenes al modelo pra predecir  
-            #     self.label = "calculando"
-            #     print("calculando")                                                  
-            #     self.pronostico = predice(self.sequence, holistic)
-            #     print(self.pronostico)
-            #     print(type(self.pronostico))
-            #     self.label = self.pronostico            
-            #     #update_cv2(img,self.label)
-            #     print(str(self.label))
-                
-                    # Send self.sequence to kafka topic
+            
         else:
             self.frame_count += 1
                 
