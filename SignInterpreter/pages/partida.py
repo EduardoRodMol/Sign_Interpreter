@@ -1,6 +1,6 @@
 import streamlit as st
-from videoprocesador import VideoProcessor, videoweb
-from streamlit_webrtc import webrtc_streamer, WebRtcMode
+from wbrtc.videoprocesador import  videoweb#,VideoProcessor,
+#from streamlit_webrtc import webrtc_streamer, WebRtcMode
 
 def app():
     
