@@ -26,7 +26,7 @@ The dataset has been created by us, using mediapipe and opencv, capturing the im
 - https://medium.com/analytics-vidhya/mediapipe-fingers-counting-in-python-w-o-gpu-f9494439090c
 - https://github.com/Kazuhito00/hand-gesture-recognition-using-mediapipe/blob/main/README_EN.md
 
-## Uso web
+## Web use
 
 If you want to use our app directly browsing a website, you are lucky!, we have deployed our app on Heroku's platform, so click on this link. Now I will guide you through the different pages that you can choose in the column on your left.
 
