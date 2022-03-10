@@ -22,6 +22,8 @@ def juego (predict):
     resultado  = ""  
     if texto == machine:
         resultado = "Draw"
+        resultado= resultado +" player: " + texto + " manchine: " + machine
+        return resultado
     if texto == "stone":
             if machine =="paper":
                 resultado="game over"
