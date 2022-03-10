@@ -2,33 +2,40 @@
 #This class is going to recevice the prediction, will select a randow between stone, paper and scissors, and update the label with the winner.
 import random
 
-gesto = ['piedra','papel','tijera']
+gesto = ['stone','paper','scissors']
 
 def selecciona_random(gesto):
    
     return random.choice(gesto)
 
+def traductor(predict):
+    texto= "scissors"
+    if predict == "piedra":
+        texto = "stone"
+    if predict == "papel":
+        texto = "paper"
+    return texto
 
 def juego (predict):    
-    machine = selecciona_random(gesto)    
-    if predict == machine:
-        return "empate " + "jugador: "+predict + " maquina prediccion: " + machine    
-    if predict == "piedra":
-            if machine =="papel":
-                return "game over " + "jugador: "+predict + " maquina prediccion: " + machine
+    machine = selecciona_random(gesto)  
+    texto = traductor(predict)
+    resultado  = ""  
+    if texto == machine:
+        resultado = "Draw"
+    if texto == "stone":
+            if machine =="paper":
+                resultado="game over"
             else:
-                return "humans wins " + "jugador: "+predict +  " maquina prediccion: " + machine
-    if predict ==  "papel":
-            if machine == "tijera":
-                return "game over " + "jugador: "+predict + " maquina prediccion: " + machine
+                resultado="humans wins"
+    if texto ==  "paper":
+            if machine == "scissors":
+                resultado="game over"             
             else:
-                return "humans wins " + "jugador: "+predict + " maquina prediccion: " + machine
-    if predict ==  "tijera":
-            if machine == "piedra":
-                return "game over jugador: "+ predict + " maquina prediccion: " + machine
+                resultado="humans wins"               
+    if texto ==  "scissors":
+            if machine == "stone":
+                resultado="game over"
             else:
-                return "humans wins " + "jugador: "+predict + " maquina prediccion: " + machine
-
-
-    
-                
+                resultado="humans wins"
+    resultado= resultado +" player: " + texto + " manchine: " + machine
+    return resultado

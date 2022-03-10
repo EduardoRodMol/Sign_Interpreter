@@ -4,7 +4,7 @@ from data.keypoints import mp_holistic, mediapipe_detection, draw_styled_landmar
 from data.values import extract_keypoints
 from data.datarecord import actions
 import numpy as np
-import cv2
+
 
 global model 
 model = load_model("action.h5")
@@ -17,10 +17,7 @@ def extraerkeypoints(img,holistic):
     return keypoints
 
 
-def update_cv2(img,label):
-    cv2.rectangle(img, (0,0), (640, 40), (245, 117, 16), -1)
-    cv2.putText(img, ' '.join(label), (3,30), 
-               cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 2, cv2.LINE_AA)
+
 
 
 def predice(sequence):

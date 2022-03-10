@@ -2,10 +2,10 @@ from streamlit_webrtc import VideoProcessorBase,webrtc_streamer, WebRtcMode
 import av
 from juego.game import juego
 import numpy as np
-from pronosticador.predict import update_cv2
+from wbrtc.print import update_cv2,escribeppt
 from wbrtc.datapoint import get_datapoint,get_pronostico
-import queue
 import asyncio
+import time
 
 
 class VideoProcessor(VideoProcessorBase):
@@ -21,21 +21,42 @@ class VideoProcessor(VideoProcessorBase):
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
         
         img =  frame.to_ndarray(format="bgr24")
-        update_cv2(img,str(self.label))
-        self.sequence = get_datapoint(img)
-        print(self.sequence)                
-        if len(self.sequence)== 30:
-            self.frame_count = 0
-            self.frame_count += 1
-            self.pronostico = get_pronostico(self.sequence)            
-            self.sequence = []
-            print(self.pronostico)
-            if self.pronostico != "":                                        
-                if str(self.pronostico) in ("piedra","papel","tijera"):
-                    self.label = juego(str(self.pronostico))
-                    print (str(self.label))
-                    update_cv2(img,str(self.label))
+        print(self.frame_count)
+        self.frame_count += 1
+        if self.frame_count <20:
+            update_cv2(img,"Stone")
+        if self.frame_count >19:
+            if self.frame_count <40:
+                update_cv2(img,"Paper")
+            if  self.frame_count >39:
+                update_cv2(img," or Scissors!!!")
+        if self.frame_count >50:
+            update_cv2(img,"")
 
+        if self.frame_count == 53:
+            escribeppt(img)
+            update_cv2(img,str(self.label))
+            self.sequence = get_datapoint(img)
+            print(self.sequence)                
+            if len(self.sequence)== 30:
+                
+                #pendiente un contador de partidas
+                #self.frame_count = 0
+                #self.frame_count += 1
+                self.pronostico = get_pronostico(self.sequence)            
+                self.sequence = []
+                print(self.pronostico)
+                if self.pronostico != "":                                        
+                    if str(self.pronostico) in ("piedra","papel","tijeras"):
+                        self.label = juego(str(self.pronostico))
+                        print (str(self.label))
+                        update_cv2(img,str(self.label))
+                       
+        if self.frame_count > 53:
+            update_cv2(img,str(self.label))
+         
+        if self.frame_count > 80:
+            self.frame_count = 0
         return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 

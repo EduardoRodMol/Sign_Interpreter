@@ -6,7 +6,7 @@ def home():
     st.text("This project would provide an efficient sign interpreter through your camera device")
     st.text('Our first goal consists of developing the classic game "stone, paper, scissors"')
     st.text('Enjoy playing a match against the computer clicking on the "Game" select option of the sidebar')
-    #st.title("Sign_Interpreter")
+   
   
   
     st.subheader("Dataset")
