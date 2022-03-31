@@ -10,7 +10,7 @@ El Objetivo es desplegar la aplicacion en una web que sea capaz de activar la we
 
 Eduardo Rodriguez => https://github.com/EduardoRodMol
 
-Borja Espés => https://github.com/BorjaEACode
+
 
 ## Dataset
 

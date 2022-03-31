@@ -6,7 +6,7 @@ from wbrtc.print import update_cv2,escribeppt
 from wbrtc.datapoint import get_datapoint,get_pronostico
 import asyncio
 import time
-
+from wbrtc.configuracion import RTC_CONFIGURATION
 
 class VideoProcessor(VideoProcessorBase):
     def __init__(self):
@@ -41,6 +41,7 @@ class VideoProcessor(VideoProcessorBase):
             if len(self.sequence)== 30:
                 
                 #pendiente un contador de partidas
+                #pendiente marcar en colores la victoria/derrota
                 #self.frame_count = 0
                 #self.frame_count += 1
                 self.pronostico = get_pronostico(self.sequence)            
@@ -64,7 +65,7 @@ def videoweb():
     webrtc_ctx =webrtc_streamer(
         key="Sign_Interpreter",
         mode=WebRtcMode.SENDRECV,
-        #rtc_configuration=RTC_CONFIGURATION,
+        rtc_configuration=RTC_CONFIGURATION,
         video_processor_factory=VideoProcessor,
         media_stream_constraints={"video": True, "audio": False},
         async_processing=True

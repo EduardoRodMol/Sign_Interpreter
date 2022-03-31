@@ -13,7 +13,7 @@ awesome tool for people who are unable to use verbal communication to make thems
 
 Eduardo Rodriguez => https://github.com/EduardoRodMol
 
-Borja Espés => https://github.com/BorjaEACode
+
 
 ## Dataset
 The dataset has been created by us, using mediapipe and opencv, capturing the images of both hands and storing them which its matching label.
